@@ -2,6 +2,9 @@ name: Build custom coredns binary
 on:
   push:
 
+env:
+  COREDNS_VERSION: v1.8.7
+
 jobs:
   build-coredns:
     runs-on: ubuntu-20.04
@@ -14,7 +17,7 @@ jobs:
         with:
           repository: coredns/coredns
           path: coredns-src
-          ref: v1.8.7
+          ref: ${{ env.COREDNS_VERSION }}
 
       - name: Setup go version
         uses: actions/setup-go@v2
@@ -27,8 +30,24 @@ jobs:
       - run: coredns-src/build/linux/amd64/coredns -version
       - run: coredns-src/build/linux/amd64/coredns -plugins
 
-      - name: Upload binaries
+  upload-binaries:
+    needs: [ build-coredns ]
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        variant:
+          - darwin_amd64
+          - linux_amd64
+          - linux_arm64
+          - linux_arm
+          - linux_mips64le
+          - linux_mips
+          - linux_ppc64le
+          - linux_s390x
+          - windows_amd64
+    steps:
+      - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
-          name: coredns-binaries
-          path: coredns-src/release/*
+          name: ${{ matrix.variant }}
+          path: coredns-src/release/coredns_${{ env.COREDNS_VERSION }}_${{ matrix.variant }}.tgz
