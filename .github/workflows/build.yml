@@ -33,6 +33,8 @@ jobs:
       - run: build/linux/amd64/coredns -version
       - run: build/linux/amd64/coredns -plugins
 
+      - run: ls release
+
   upload-binaries:
     needs: [ build-coredns ]
     runs-on: ubuntu-20.04
@@ -50,8 +52,11 @@ jobs:
           - linux_s390x
           - windows_amd64
     steps:
+      - run: pwd
+
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.variant }}
           path: coredns-src/release/coredns_${{ env.COREDNS_VERSION }}_${{ matrix.variant }}.tgz
+
