@@ -1,0 +1,34 @@
+name: Build custom coredns binary
+on:
+  push:
+
+jobs:
+  build-coredns:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Clone coredns
+        uses: actions/checkout@v2
+        with:
+          repository: coredns/coredns
+          path: coredns-src
+          ref: v1.8.7
+
+      - name: Setup go version
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.6'
+
+      - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
+      - run: make -C coredns-src
+
+      - run: coredns-src/coredns -version
+      - run: coredns-src/coredns -plugins
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: coredns-binary
+          path: coredns-src/coredns
