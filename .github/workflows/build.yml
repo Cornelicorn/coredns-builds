@@ -22,13 +22,13 @@ jobs:
           go-version: '^1.17.6'
 
       - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
-      - run: make -C coredns-src
+      - run: make -C coredns-src -f Makefile.release release
 
       - run: coredns-src/coredns -version
       - run: coredns-src/coredns -plugins
 
-      - name: Upload binary
+      - name: Upload binaries
         uses: actions/upload-artifact@v2
         with:
-          name: coredns-binary
-          path: coredns-src/coredns
+          name: coredns-binaries
+          path: coredns-src/release/*
