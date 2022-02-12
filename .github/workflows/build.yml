@@ -22,7 +22,7 @@ jobs:
       - name: Setup go version
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.17.6'
+          go-version: '^1.17.7'
 
       - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
       - run: go generate coredns.go
