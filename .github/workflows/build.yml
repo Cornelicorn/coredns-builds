@@ -27,7 +27,7 @@ jobs:
       - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
       - run: cd coredns-src
       - run: go generate coredns.go
-      - run: go get
+      - run: ls
       - run: make -f Makefile.release release
 
       - run: build/linux/amd64/coredns -version
