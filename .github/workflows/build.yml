@@ -4,6 +4,7 @@ on:
 
 env:
   COREDNS_VERSION: 1.8.7
+  GO_VERSION: 1.17.7
 
 jobs:
   build-coredns:
@@ -22,7 +23,7 @@ jobs:
       - name: Setup go version
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.17.7'
+          go-version: "^${{ env.GO_VERSION }}"
 
       - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
       - run: go generate coredns.go
