@@ -3,7 +3,7 @@ on:
   push:
 
 env:
-  COREDNS_VERSION: v1.8.7
+  COREDNS_VERSION: 1.8.7
 
 jobs:
   build-coredns:
@@ -17,7 +17,7 @@ jobs:
         with:
           repository: coredns/coredns
           path: coredns-src
-          ref: ${{ env.COREDNS_VERSION }}
+          ref: v${{ env.COREDNS_VERSION }}
 
       - name: Setup go version
         uses: actions/setup-go@v2
