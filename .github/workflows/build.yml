@@ -25,11 +25,11 @@ jobs:
           go-version: '^1.17.6'
 
       - run: 'echo "autoipv6ptr:github.com/cornelicorn/coredns-auto-aaaa-and-ptr/autoipv6ptr" >> coredns-src/plugin.cfg'
-      - run: |
-          cd coredns-src
-          go generate coredns.go
-          go get
-          make -f Makefile.release release
+      - run: go generate coredns.go
+        working-directory: coredns-src
+      - run: go get
+        working-directory: coredns-src
+      - run: make -C coredns-src -f Makefile.release release
 
       - run: coredns-src/build/linux/amd64/coredns -version
       - run: coredns-src/build/linux/amd64/coredns -plugins
