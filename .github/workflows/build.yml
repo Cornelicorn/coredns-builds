@@ -52,8 +52,6 @@ jobs:
           - linux_s390x
           - windows_amd64
     steps:
-      - run: pwd
-
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
