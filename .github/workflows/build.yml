@@ -35,6 +35,13 @@ jobs:
       - run: coredns-src/build/linux/amd64/coredns -plugins
       - run: ls coredns-src/release
 
+      - name: upload releases to cache
+        uses: actions/cache@v2
+        id: coredns-release
+        with:
+          path: coredns-src/release/*
+          key: ${{ github.sha }}
+
   upload-binaries:
     needs: [ build-coredns ]
     runs-on: ubuntu-20.04
@@ -52,7 +59,13 @@ jobs:
           - linux_s390x
           - windows_amd64
     steps:
-      - run: ls coredns-src/release
+      - name: restore releases from cache
+        uses: actions/cache@v2
+        id: coredns-release
+        with:
+          path: coredns-src/release/*
+          key: ${{ github.sha }}
+
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
