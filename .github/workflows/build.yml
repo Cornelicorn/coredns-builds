@@ -52,6 +52,7 @@ jobs:
           - linux_s390x
           - windows_amd64
     steps:
+      - run: ls coredns-src/release
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:
